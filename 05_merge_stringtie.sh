@@ -6,7 +6,7 @@
 #SBATCH --partition=pall
 #SBATCH --job-name=merge_stringtie
 #SBATCH --mail-user=lea.frei@students.unibe.ch
-#SBATCH --mail-type=begin,end,error
+#SBATCH --mail-type=begin,end,fail
 #SBATCH --output=/data/users/lfrei/rna_seq/output/output_stringtie_merge_%j.o
 #SBATCH --error=/data/users/lfrei/rna_seq/errors/error_stringtie_merge_%j.e
 

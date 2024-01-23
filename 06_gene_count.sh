@@ -6,7 +6,7 @@
 #SBATCH --partition=pall
 #SBATCH --job-name=count_genes
 #SBATCH --mail-user=lea.frei@students.unibe.ch
-#SBATCH --mail-type=begin,end,error
+#SBATCH --mail-type=begin,end,fail
 #SBATCH --output=/data/users/lfrei/rna_seq/output/output_count_genes_%j.o
 #SBATCH --error=/data/users/lfrei/rna_seq/errors/error_count_genes_%j.e
 
@@ -19,18 +19,19 @@ cd $INPUT_DIR
 awk '$3=="exon" {exon_count++} END {print "exons:", exon_count}' $INPUT_DIR >> $OUTPUT_DIR/gene_count.txt
 
 #number of transcripts
-awk '$3=="transcript" {transcript_count++} END {print "transcripts:", transcript_count}' $INPUT_DIR >> $OUTPUT_DIR/gene_count.txt
+transcript_count=$(awk '$11=="transcript_id" {print $12}' $INPUT_DIR | sort | uniq | wc -l)
+echo transcripts: $transcript_count >> $OUTPUT_DIR/gene_count.txt
 
 #number of genes
 gene_count=$(awk '$9=="gene_id" {print $10}' $INPUT_DIR | sort | uniq | wc -l)
 echo genes: $gene_count >> $OUTPUT_DIR/gene_count.txt
 
 #number of novel transcripts
-novel_transcripts=$(awk '$11=="transcript_id" {print $12}' $INPUT_DIR | grep -v 'ENST' | sort | uniq | wc -l)
+novel_transcripts=$(awk '$11=="transcript_id" {print $12}' $INPUT_DIR | grep -v 'ENS' | sort | uniq | wc -l)
 echo novel transcripts: $novel_transcripts >> $OUTPUT_DIR/gene_count.txt
 
 #number of novel genes
-novel_genes=$(awk '$9=="gene_id" {print $10}' $INPUT_DIR | grep -v 'ENSG' | sort | uniq | wc -l)
+novel_genes=$(awk '$9=="gene_id" {print $10}' $INPUT_DIR | grep -v 'ENS' | sort | uniq | wc -l)
 echo novel genes: $novel_genes >> $OUTPUT_DIR/gene_count.txt 
 
 #number of single exon genes 

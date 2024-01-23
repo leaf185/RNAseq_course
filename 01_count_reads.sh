@@ -6,7 +6,7 @@
 #SBATCH --partition=pall
 #SBATCH --job-name=count_reads
 #SBATCH --mail-user=lea.frei@students.unibe.ch
-#SBATCH --mail-type=begin,end,error
+#SBATCH --mail-type=begin,end,fail
 #SBATCH --output=/data/users/lfrei/rna_seq/output/reads.txt
 #SBATCH --array=0-11
 

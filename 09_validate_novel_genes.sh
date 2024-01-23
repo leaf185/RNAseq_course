@@ -6,7 +6,7 @@
 #SBATCH --partition=pall
 #SBATCH --job-name=bedtools
 #SBATCH --mail-user=lea.frei@students.unibe.ch
-#SBATCH --mail-type=begin,end,error
+#SBATCH --mail-type=begin,end,fail
 #SBATCH --output=/data/users/lfrei/rna_seq/output/output_bedtools_%j.o
 #SBATCH --error=/data/users/lfrei/rna_seq/errors/error_bedtools_%j.e
 
