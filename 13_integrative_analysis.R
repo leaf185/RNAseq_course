@@ -45,7 +45,7 @@ intergenic <- intergenic_data %>%
   dplyr::select(transcript_id)
 
 
-#add the additional information from DESeq to the gene_table¨
+#add the additional information from DESeq to the gene_table
 complete_table <- gene_table %>%
   left_join(de_results, by = "gene_id")
 
