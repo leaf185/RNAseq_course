@@ -10,7 +10,7 @@ attach(test)
 output <- cbind("mRNA_size"=mRNA,"ORF_size"=ORF,"Fickett_score"=Fickett,"Hexamer_score"=Hexamer,"coding_prob"=test$prob)
 write.table(output,file="protein_coding_potential.txt",quote=F,sep="\t",row.names=ID)
 
-#load all the datasets
+#load all the datasets from differential expression and integrative analysis
 gene_table_data <- read.table("gene_table_filtered.txt", header = T, sep = ";")
 de_results_data <- read.table("gene_expression_table.csv", header = T, sep = ",")
 five_prime_data <- read.table("annotation_5prime.txt", sep = "\t")
@@ -21,7 +21,7 @@ protein_coding_potential_data <- read.table("protein_coding_potential.txt", sep 
 #calculate number of protein coding novel transcripts (at cutoff 0.364)
 protein_coding_transcripts <- sum(protein_coding_potential_data$coding_prob >= 0.364)
 
-#select relevant columns and remove ; after transcript ids
+#prepare data: select relevant columns and remove ; after transcript ids
 gene_table <- dplyr::select(gene_table_data, gene_id, transcript_id, biotype)
 
 de_results <- de_results_data %>%
