@@ -15,7 +15,7 @@ GTF_REFERENCE_DIR=/data/courses/rnaseq_course/lncRNAs/Project1/references/gencod
 OUTPUT_DIR=/data/users/lfrei/rna_seq
 
 
-#create table from the GENCODE GTF
+#create table from the GENCODE GTF with filtering for lncRNAs and protein_coding genes
 echo -e "gene_id; transcript_id; biotype;" > $OUTPUT_DIR/gene_table_filtered.txt
 grep -E 'lncRNA|protein_coding' $GTF_REFERENCE_DIR |
 awk '$3=="transcript" {print $10, $12, $14}' >> $OUTPUT_DIR/gene_table_filtered.txt
