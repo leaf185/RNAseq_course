@@ -11,33 +11,33 @@
 #SBATCH --error=/data/users/lfrei/rna_seq/errors/error_count_genes_%j.e
 
 INPUT_DIR=/data/users/lfrei/rna_seq/assembly_results/all_merged.gtf
-OUTPUT_DIR=/data/users/lfrei/rna_seq
+OUTPUT_DIR=/data/users/lfrei/rna_seq/gene_count.txt
 
 cd $INPUT_DIR
 
 #number of exons
-awk '$3=="exon" {exon_count++} END {print "exons:", exon_count}' $INPUT_DIR >> $OUTPUT_DIR/gene_count.txt
+awk '$3=="exon" {exon_count++} END {print "exons:", exon_count}' $INPUT_DIR >> $OUTPUT_DIR
 
 #number of transcripts
 transcript_count=$(awk '$11=="transcript_id" {print $12}' $INPUT_DIR | sort | uniq | wc -l)
-echo transcripts: $transcript_count >> $OUTPUT_DIR/gene_count.txt
+echo transcripts: $transcript_count >> $OUTPUT_DIR
 
 #number of genes
 gene_count=$(awk '$9=="gene_id" {print $10}' $INPUT_DIR | sort | uniq | wc -l)
-echo genes: $gene_count >> $OUTPUT_DIR/gene_count.txt
+echo genes: $gene_count >> $OUTPUT_DIR
 
 #number of novel transcripts
 novel_transcripts=$(awk '$11=="transcript_id" {print $12}' $INPUT_DIR | grep -v 'ENS' | sort | uniq | wc -l)
-echo novel transcripts: $novel_transcripts >> $OUTPUT_DIR/gene_count.txt
+echo novel transcripts: $novel_transcripts >> $OUTPUT_DIR
 
 #number of novel genes
 novel_genes=$(awk '$9=="gene_id" {print $10}' $INPUT_DIR | grep -v 'ENS' | sort | uniq | wc -l)
-echo novel genes: $novel_genes >> $OUTPUT_DIR/gene_count.txt 
+echo novel genes: $novel_genes >> $OUTPUT_DIR
 
 #number of single exon genes 
 awk '$3=="exon" {print $10}' $INPUT_DIR | sort | uniq -c | \
-awk '$1==1 {single_exon_count++} END {print "single exon genes:", single_exon_count}' >> $OUTPUT_DIR/gene_count.txt
+awk '$1==1 {single_exon_count++} END {print "single exon genes:", single_exon_count}' >> $OUTPUT_DIR
 
 #number of single exon transcripts
 awk '$3=="exon" {print $12}' $INPUT_DIR | sort | uniq -c | \
-awk '$1==1 {single_exon_count++} END {print "single exon transcripts:", single_exon_count}' >> $OUTPUT_DIR/gene_count.txt
+awk '$1==1 {single_exon_count++} END {print "single exon transcripts:", single_exon_count}' >> $OUTPUT_DIR
