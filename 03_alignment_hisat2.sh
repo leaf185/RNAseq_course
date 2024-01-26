@@ -6,7 +6,7 @@
 #SBATCH --partition=pall
 #SBATCH --job-name=alignment_hisat2
 #SBATCH --mail-user=lea.frei@students.unibe.ch
-#SBATCH --mail-type=begin,end,error
+#SBATCH --mail-type=begin,end,fail
 #SBATCH --output=/data/users/lfrei/rna_seq/output/output_hisat2_%j.o
 #SBATCH --error=/data/users/lfrei/rna_seq/errors/error_hisat2_%j.e
 #SBATCH --array=0-5
@@ -24,7 +24,7 @@ mkdir -p $OUTPUT_DIR
 
 #index file of reference genome
 #options: -f input is fastq, -p to use parallel threads
-# hisat2-build -f -p 2  $REFERENCE_DIR/GRCh38.genome.fa reference_indexed/GRCh38_index
+hisat2-build -f -p 2  $REFERENCE_DIR/GRCh38.genome.fa reference_indexed/GRCh38_index
 
 #create file arrays for R1 and R2 reads
 cd $READS_DIR
@@ -33,7 +33,6 @@ files_R2=( $(ls | grep '^[1P].*_R2_') )
 sample_name="${files_R1[$SLURM_ARRAY_TASK_ID]%%_R1*}"
 
 #run alignment
-#try trimming 7 bases from right, might be adapter pieces (fastqc)
 cd $READS_DIR
 hisat2 --rna-strandness RF -p 2 \
         -x $HISAT2_INDEXES/GRCh38_index \
