@@ -11,11 +11,11 @@
 #SBATCH --error=/data/users/lfrei/rna_seq/errors/error_expressed_genes_%j.e
 
 INPUT_DIR=/data/users/lfrei/rna_seq/quantification_results
-OUTPUT_DIR=/data/users/lfrei/rna_seq
+OUTPUT_DIR=/data/users/lfrei/rna_seq/expressed_genes.txt
 
 cd $INPUT_DIR
 
 for file in *; do
-    awk -v file=$file 'BEGIN {count=0} ($2>0) {count++} END {print file, "total", count}' $file >> $OUTPUT_DIR/expressed_genes.txt
-    grep -v 'ENS' $file | awk -v file=$file 'BEGIN {count=0} ($2>0) {count++} END {print file, "novel", count}' >> $OUTPUT_DIR/expressed_genes.txt;
+    awk -v file=$file 'BEGIN {count=0} {if($2>0){count++}} END {print file, "total", count}' $file >> $OUTPUT_DIR
+    grep -v 'ENS' $file | awk -v file=$file 'BEGIN {count=0} {if($2>0){count++}} END {print file, "novel", count}' >> $OUTPUT_DIR;
 done
