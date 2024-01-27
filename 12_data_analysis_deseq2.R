@@ -81,25 +81,29 @@ write.csv( as.data.frame(results_transcripts), file="transcript_expression_table
 
 #volcano plot for all genes/ all transcripts
 EnhancedVolcano(results_genes,results_genes$hgnc_symbol, "log2FoldChange", "padj",
-                xlim = c(-10,10)
-                )
+                xlim = c(-10,10), title = "", subtitle = "", legendLabSize = 10,
+                axisLabSize = 10, labSize = 3, captionLabSize = 10, pCutoff = 0.1)
 EnhancedVolcano(results_transcripts, results_transcripts$hgnc_symbol, "log2FoldChange", "padj",
-                xlim = c(-10,10))
+                xlim = c(-10,10), title = "", subtitle = "", legendLabSize = 10,
+                axisLabSize = 10, labSize = 3, captionLabSize = 10, pCutoff = 0.1)
 
 #volcano plot for lncRNAs (from gene expression)
 EnhancedVolcano(results_genes[which(results_genes$biotype == "lncRNA"),], 
                 results_genes$hgnc_symbol[which(results_genes$biotype == "lncRNA")], "log2FoldChange", "padj",
-                xlim = c(-10,10))
+                xlim = c(-10,10), title = "", subtitle = "", legendLabSize = 10,
+                axisLabSize = 10, labSize = 3, captionLabSize = 10, pCutoff = 0.1)
 
 #volcano plot for proteincoding genes (from gene expression)
 EnhancedVolcano(results_genes[which(results_genes$biotype == "protein_coding"),],
                 results_genes$hgnc_symbol[which(results_genes$biotype == "protein_coding")], "log2FoldChange", "padj",
-                xlim = c(-10,10))
+                xlim = c(-10,10), title = "", subtitle = "", legendLabSize = 10,
+                axisLabSize = 10, labSize = 3, captionLabSize = 10, pCutoff = 0.1)
 
 #volcano plot of all novel genes (from gene expression)
 EnhancedVolcano(results_genes[grep("MSTRG", rownames(results_genes)), ],
                 rownames(results_genes[grep("MSTRG", rownames(results_genes)), ]),
-                "log2FoldChange", "padj", xlim = c(-10, 10))
+                "log2FoldChange", "padj", xlim = c(-10, 10), title = "", subtitle = "", legendLabSize = 10,
+                axisLabSize = 10, labSize = 3, captionLabSize = 10, pCutoff = 0.1)
 
 #create heatmap from the fpm table for the top differential expressed genes
 results_genes_significant <- results_genes[which(results_genes$padj < 0.1),]
